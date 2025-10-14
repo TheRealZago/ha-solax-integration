@@ -14,20 +14,12 @@ from homeassistant.const import CONF_IP_ADDRESS, CONF_PASSWORD, CONF_PORT
 from homeassistant.helpers import config_validation as cv
 from homeassistant.helpers.selector import selector
 
-from importlib.metadata import entry_points
-
-from .const import DOMAIN
+from .const import DOMAIN, get_inverter_entry_points, get_inverter_types, SOLAX_CONF_INVERTER_TYPE
 
 _LOGGER = logging.getLogger(__name__)
 
-SOLAX_CONF_INVERTER_TYPE = "inverter_type"
-
 DEFAULT_PORT = 80
 DEFAULT_PASSWORD = ""
-
-INVERTERS_ENTRY_POINTS = {
-   ep.name: ep.load() for ep in entry_points(group="solax.inverter")
-}
 
 STEP_USER_DATA_SCHEMA = vol.Schema(
     {
@@ -36,7 +28,7 @@ STEP_USER_DATA_SCHEMA = vol.Schema(
         vol.Optional(CONF_PASSWORD, default=DEFAULT_PASSWORD): cv.string,
         vol.Optional(SOLAX_CONF_INVERTER_TYPE, default=""): selector({
             "select": {
-                "options": INVERTERS_ENTRY_POINTS.keys()
+                "options": get_inverter_types()
             }
         }),
     }
@@ -48,7 +40,7 @@ async def validate_api(data) -> str:
 
     api = await real_time_api(
         data[CONF_IP_ADDRESS], data[CONF_PORT], data[CONF_PASSWORD],
-        inverters=[INVERTERS_ENTRY_POINTS.get(data[SOLAX_CONF_INVERTER_TYPE])]
+        inverters=[get_inverter_entry_points().get(data[SOLAX_CONF_INVERTER_TYPE])]
     )
     response = await api.get_data()
     return response.serial_number

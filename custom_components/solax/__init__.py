@@ -14,6 +14,7 @@ from homeassistant.exceptions import ConfigEntryNotReady
 from homeassistant.helpers.update_coordinator import UpdateFailed
 
 from .coordinator import SolaxDataUpdateCoordinator
+from .const import get_inverter_entry_points, SOLAX_CONF_INVERTER_TYPE
 
 PLATFORMS = [Platform.SENSOR]
 
@@ -41,6 +42,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: SolaxConfigEntry) -> boo
             entry.data[CONF_IP_ADDRESS],
             entry.data[CONF_PORT],
             entry.data[CONF_PASSWORD],
+            inverters=[get_inverter_entry_points().get(entry.data[SOLAX_CONF_INVERTER_TYPE])]
         )
     except Exception as err:
         raise ConfigEntryNotReady from err
