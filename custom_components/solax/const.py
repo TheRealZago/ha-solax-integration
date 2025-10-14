@@ -1,5 +1,5 @@
 """Constants for the solax integration."""
 
-DOMAIN = "solax"
+DOMAIN = "zago_solax"
 
-MANUFACTURER = "SolaX Power"
+MANUFACTURER = "(Zago) SolaX Power"

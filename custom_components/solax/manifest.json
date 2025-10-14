@@ -1,6 +1,7 @@
 {
-  "domain": "solax",
-  "name": "(Custom) SolaX Power",
+  "domain": "zago_solax",
+  "name": "(Zago) SolaX Power",
+  "version": "1.0.0",
   "codeowners": ["@TheRealZago"],
   "config_flow": true,
   "documentation": "https://www.home-assistant.io/integrations/solax",
