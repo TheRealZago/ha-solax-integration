@@ -21,19 +21,20 @@ _LOGGER = logging.getLogger(__name__)
 DEFAULT_PORT = 80
 DEFAULT_PASSWORD = ""
 
-STEP_USER_DATA_SCHEMA = vol.Schema(
-    {
-        vol.Required(CONF_IP_ADDRESS): cv.string,
-        vol.Optional(CONF_PORT, default=DEFAULT_PORT): cv.port,
-        vol.Optional(CONF_PASSWORD, default=DEFAULT_PASSWORD): cv.string,
-        vol.Optional(SOLAX_CONF_INVERTER_TYPE, default=""): selector({
-            "select": {
-                "options": get_inverter_types()
-            }
-        }),
-    }
-)
-
+async def make_data_schema() -> vol.Schema:
+    """Create the data schema."""
+    return vol.Schema(
+        {
+            vol.Required(CONF_IP_ADDRESS): cv.string,
+            vol.Optional(CONF_PORT, default=DEFAULT_PORT): cv.port,
+            vol.Optional(CONF_PASSWORD, default=DEFAULT_PASSWORD): cv.string,
+            vol.Optional(SOLAX_CONF_INVERTER_TYPE, default=""): selector({
+                "select": {
+                    "options": await get_inverter_types()
+                }
+            }),
+        }
+    )
 
 async def validate_api(data) -> str:
     """Validate the credentials."""
@@ -56,7 +57,7 @@ class SolaxConfigFlow(ConfigFlow, domain=DOMAIN):
         errors: dict[str, Any] = {}
         if user_input is None:
             return self.async_show_form(
-                step_id="user", data_schema=STEP_USER_DATA_SCHEMA, errors=errors
+                step_id="user", data_schema=make_data_schema(), errors=errors
             )
 
         try:
@@ -72,5 +73,5 @@ class SolaxConfigFlow(ConfigFlow, domain=DOMAIN):
             return self.async_create_entry(title=serial_number, data=user_input)
 
         return self.async_show_form(
-            step_id="user", data_schema=STEP_USER_DATA_SCHEMA, errors=errors
+            step_id="user", data_schema=make_data_schema(), errors=errors
         )
