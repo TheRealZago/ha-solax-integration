@@ -21,7 +21,7 @@ _LOGGER = logging.getLogger(__name__)
 DEFAULT_PORT = 80
 DEFAULT_PASSWORD = ""
 
-async def make_data_schema() -> vol.Schema:
+def make_data_schema() -> vol.Schema:
     """Create the data schema."""
     return vol.Schema(
         {
@@ -30,7 +30,7 @@ async def make_data_schema() -> vol.Schema:
             vol.Optional(CONF_PASSWORD, default=DEFAULT_PASSWORD): cv.string,
             vol.Optional(SOLAX_CONF_INVERTER_TYPE, default=""): selector({
                 "select": {
-                    "options": await get_inverter_types()
+                    "options": get_inverter_types()
                 }
             }),
         }

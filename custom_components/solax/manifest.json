@@ -7,5 +7,5 @@
   "documentation": "https://www.home-assistant.io/integrations/solax",
   "iot_class": "local_polling",
   "loggers": ["solax"],
-  "requirements": ["solax==3.2.3"]
+  "requirements": ["solax@git+https://github.com/squishykid/solax.git@6c9e490b979279486ffec9fc0841b649704489d6"]
 }
