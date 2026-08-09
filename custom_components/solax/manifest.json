@@ -1,11 +1,11 @@
 {
   "domain": "zago_solax",
   "name": "(Zago) SolaX Power",
-  "version": "1.0.0",
-  "codeowners": ["@TheRealZago"],
+  "codeowners": ["@squishykid", "@Darsstar", "@TheRealZago"],
   "config_flow": true,
   "documentation": "https://www.home-assistant.io/integrations/solax",
+  "integration_type": "device",
   "iot_class": "local_polling",
-  "loggers": ["solax"],
-  "requirements": ["solax@git+https://github.com/squishykid/solax.git@6c9e490b979279486ffec9fc0841b649704489d6"]
+  "loggers": ["zago_solax"],
+  "requirements": ["solax==3.2.4"]
 }
