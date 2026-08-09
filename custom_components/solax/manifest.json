@@ -8,7 +8,7 @@
   "iot_class": "local_polling",
   "loggers": ["solax"],
   "requirements": [
-    "solax@git+https://github.com/TheRealZago/solax.git@97511ba38b60558467351397847ed509e24c58d4"
+    "solax@git+https://github.com/TheRealZago/solax.git@b280e1f71f57a6d194e65609deec2ff59d0e656f"
   ],
   "version": "1.0.0"
 }
