@@ -4,15 +4,16 @@ from dataclasses import dataclass
 from datetime import timedelta
 import logging
 
-from solax import InverterResponse, RealTimeAPI, real_time_api
+from solax import InverterResponse, RealTimeAPI
 from solax.inverter import InverterError
 
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import CONF_IP_ADDRESS, CONF_PASSWORD, CONF_PORT, Platform
+from homeassistant.const import Platform
 from homeassistant.core import HomeAssistant
 from homeassistant.exceptions import ConfigEntryNotReady
 from homeassistant.helpers.update_coordinator import UpdateFailed
 
+from .api import async_create_api
 from .coordinator import SolaxDataUpdateCoordinator
 
 PLATFORMS = [Platform.SENSOR]
@@ -37,11 +38,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: SolaxConfigEntry) -> boo
     """Set up the sensors from a ConfigEntry."""
 
     try:
-        api = await real_time_api(
-            entry.data[CONF_IP_ADDRESS],
-            entry.data[CONF_PORT],
-            entry.data[CONF_PASSWORD],
-        )
+        api = await async_create_api(entry.data)
     except Exception as err:
         raise ConfigEntryNotReady from err
 

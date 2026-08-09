@@ -1,19 +1,19 @@
 {
   "config": {
     "abort": {
-      "already_configured": "[%key:common::config_flow::abort::already_configured_device%]"
+      "already_configured": "Device is already configured"
     },
     "error": {
-      "cannot_connect": "[%key:common::config_flow::error::cannot_connect%]",
-      "unknown": "[%key:common::config_flow::error::unknown%]"
+      "cannot_connect": "Failed to connect",
+      "unknown": "Unexpected error"
     },
     "step": {
       "user": {
         "data": {
           "inverter_type": "Inverter type",
-          "ip_address": "[%key:common::config_flow::data::ip%]",
-          "password": "[%key:common::config_flow::data::password%]",
-          "port": "[%key:common::config_flow::data::port%]"
+          "ip_address": "IP address",
+          "password": "Password",
+          "port": "Port"
         }
       }
     }

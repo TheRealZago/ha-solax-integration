@@ -3,15 +3,25 @@
 import logging
 from typing import Any, override
 
-from solax import real_time_api
 from solax.discovery import DiscoveryError
 import voluptuous as vol
 
 from homeassistant.config_entries import ConfigFlow, ConfigFlowResult
 from homeassistant.const import CONF_IP_ADDRESS, CONF_PASSWORD, CONF_PORT
 from homeassistant.helpers import config_validation as cv
+from homeassistant.helpers.selector import (
+    SelectSelector,
+    SelectSelectorConfig,
+    SelectSelectorMode,
+)
 
-from .const import DOMAIN
+from .api import async_create_api
+from .const import (
+    CONF_INVERTER_TYPE,
+    DOMAIN,
+    INVERTER_TYPE_AUTO,
+    get_inverter_types,
+)
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -23,6 +33,15 @@ STEP_USER_DATA_SCHEMA = vol.Schema(
         vol.Required(CONF_IP_ADDRESS): cv.string,
         vol.Optional(CONF_PORT, default=DEFAULT_PORT): cv.port,
         vol.Optional(CONF_PASSWORD, default=DEFAULT_PASSWORD): cv.string,
+        vol.Optional(
+            CONF_INVERTER_TYPE, default=INVERTER_TYPE_AUTO
+        ): SelectSelector(
+            SelectSelectorConfig(
+                options=[INVERTER_TYPE_AUTO, *get_inverter_types()],
+                mode=SelectSelectorMode.DROPDOWN,
+                translation_key=CONF_INVERTER_TYPE,
+            )
+        ),
     }
 )
 
@@ -30,9 +49,7 @@ STEP_USER_DATA_SCHEMA = vol.Schema(
 async def validate_api(data) -> str:
     """Validate the credentials."""
 
-    api = await real_time_api(
-        data[CONF_IP_ADDRESS], data[CONF_PORT], data[CONF_PASSWORD]
-    )
+    api = await async_create_api(data)
     response = await api.get_data()
     return response.serial_number
 

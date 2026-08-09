@@ -50,6 +50,18 @@ SENSOR_DESCRIPTIONS: dict[tuple[Units, bool], SensorEntityDescription] = {
         native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR,
         state_class=SensorStateClass.TOTAL_INCREASING,
     ),
+    (Units.WH, False): SensorEntityDescription(
+        key=f"{Units.WH}_{False}",
+        device_class=SensorDeviceClass.ENERGY,
+        native_unit_of_measurement=UnitOfEnergy.WATT_HOUR,
+        state_class=SensorStateClass.MEASUREMENT,
+    ),
+    (Units.WH, True): SensorEntityDescription(
+        key=f"{Units.WH}_{True}",
+        device_class=SensorDeviceClass.ENERGY,
+        native_unit_of_measurement=UnitOfEnergy.WATT_HOUR,
+        state_class=SensorStateClass.TOTAL_INCREASING,
+    ),
     (Units.V, False): SensorEntityDescription(
         key=f"{Units.V}_{False}",
         device_class=SensorDeviceClass.VOLTAGE,
