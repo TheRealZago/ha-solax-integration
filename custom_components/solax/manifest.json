@@ -9,5 +9,6 @@
   "loggers": ["solax"],
   "requirements": [
     "solax@git+https://github.com/TheRealZago/solax.git@97511ba38b60558467351397847ed509e24c58d4"
-  ]
+  ],
+  "version": "1.0.0"
 }
